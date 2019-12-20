@@ -45,7 +45,7 @@ enum CarsType {
 note: BMWData and MercedesData are struct to put data on it, you will se it each car, because each car has its own data
 
 
-### Enum
+### Factory
 
 now we'r ready to create our Factory
 
@@ -118,6 +118,12 @@ class Mercedes: Car {
 ### BMW
 
 ```
+struct BMWData {
+    let bmwColor: String
+    let bmwReleaseYear: Int
+    let bmwModelName: String
+}
+
 class BMW: Car {
     
     var carModelName: String
