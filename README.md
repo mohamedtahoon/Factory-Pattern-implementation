@@ -14,35 +14,35 @@ simply, we build a "Factory" to produce different objects which belong to the sa
 
 ## Getting Started
 
-As in the our code, we have different types of cars, SEDAN, FOURxFOUR, and later we maybe add "SUV".
+As in the our code, we have different types of cars, Mercedes, BMW, and later we maybe add "Fiat".
 
 ### Protocol
-Our Vehicles.
+Our Car.
 They all conform to protocol Car. It means the protocol defines common interface for cars. The specific car type implement their own logic.
 
 ```
-protocol Vehicle {
-    var vehicleModelName: String { get set }
-    var vehicleReleaseYear: Int { get set }
-    var vehicleColor: String { get set }
+protocol Car {
+    var carModelName: String { get set }
+    var carReleaseYear: Int { get set }
+    var carColor: String { get set }
     
-    func getVehicleInfo() -> String
+    func getCarInfo() -> String
 }
 ```
-each vehicle should have their name, releaseYear and color 
+each car should have their name, releaseYear and color 
 and a method to get its own info.
 
 ### Enum
 we make an enum to deal with them in type safe way
-all of them in type car, or Vehicle
+all of them in type car
 so,
 ```
-enum VehiclesType {
-    case SEDAN(SEDANData)
-    case FOURXFOUR(FOURxFOURData)
+enum CarsType {
+    case BMW(BMWData)
+    case Mercedes(MercedesData)
 }
 ```
-note: SEDANData, FOURxFOURData and SUVData are struct to put data on it, you will se it each car, because each car has its own data
+note: BMWData, MercedesData and SUVData are struct to put data on it, you will se it each car, because each car has its own data
 
 
 ### Enum
@@ -60,20 +60,21 @@ I think static factory is okay in most cases and that's why it is popular. But i
 By example, if your system reads products information from two different systems it may need two different factories because those external services or data sources may give you product data with different structure.
 
 ```
-class VehicleFactory {
-    private static var sharedVehicleFactory = VehicleFactory()
-    class func shared() -> VehicleFactory {
-        return sharedVehicleFactory
+class CarFactory {
+    private static var sharedCarFactory = CarFactory()
+    
+    class func shared() -> CarFactory {
+        return sharedCarFactory
     }
     
-    func produceVehicle(VehicleType vehicleType: VehiclesType) -> Vehicle {
-        switch vehicleType {
-        
-        case .SEDAN(let SEDANData):
-            return SEDAN(with: SEDANData)
+    func produceVehicle(CarType carType: CarsType) -> Car {
+        switch carType {
             
-        case .FOURXFOUR(let FOURxFOURData):
-            return FOURxFOUR(with: FOURxFOURData)
+        case .BMW(let BMWData):
+            return BMW(with: BMWData)
+            
+        case .Mercedes(let MercedesData):
+            return Mercedes(with: MercedesData)
             
         }
     }
@@ -82,115 +83,115 @@ class VehicleFactory {
 
 ## Create cars or Vehicles
 
-### FOURxFOUR
+### Mercedes
 
 you will notice in each class we make a Struct,
 it's like a model to put our data inside
 
 ```
-struct FOURxFOURData {
-    let vehicleColor: String
-    let vehicleReleaseYear: Int
-    let vehicleModelName: String
+struct MercedesData {
+    let mercedesColor: String
+    let mercedesReleaseYear: Int
+    let mercedesModelName: String
 }
 ```
 
 ```
-class FOURxFOUR: Vehicle {
-    var vehicleModelName: String
-    var vehicleReleaseYear: Int
-    var vehicleColor: String
+class Mercedes: Car {
+    var carModelName: String
+    var carReleaseYear: Int
+    var carColor: String
     
-    init(with FOURxFOURData: FOURxFOURData) {
-        self.vehicleColor = FOURxFOURData.vehicleColor
-        self.vehicleReleaseYear = FOURxFOURData.vehicleReleaseYear
-        self.vehicleModelName = FOURxFOURData.vehicleModelName
+    init(with MercedesData: MercedesData) {
+        self.carColor = MercedesData.mercedesColor
+        self.carReleaseYear = MercedesData.mercedesReleaseYear
+        self.carModelName = MercedesData.mercedesModelName
     }
     
-    func getVehicleInfo() -> String {
-        return self.vehicleColor+" "+self.vehicleModelName+" \(self.vehicleReleaseYear)"
-    }
-}
-```
-### SEDAN
-
-```
-class SEDAN: Vehicle {
-    
-    var vehicleModelName: String
-    var vehicleReleaseYear: Int
-    var vehicleColor: String
-    
-    init(with SEDANData: SEDANData) {
-        self.vehicleColor = SEDANData.vehicleColor
-        self.vehicleReleaseYear = SEDANData.vehicleReleaseYear
-        self.vehicleModelName = SEDANData.vehicleModelName
-    }
-    
-    func getVehicleInfo() -> String {
-        return self.vehicleColor+" "+self.vehicleModelName+" \(self.vehicleReleaseYear)"
+    func getCarInfo() -> String {
+        return self.carColor+" "+self.carModelName+" \(self.carReleaseYear)"
     }
 }
 ```
+### BMW
 
-# now we're done , lets try to add new type of Vehicles
+```
+class BMW: Car {
+    
+    var carModelName: String
+    var carReleaseYear: Int
+    var carColor: String
+    
+    init(with bmwData: BMWData) {
+        self.carColor = bmwData.bmwColor
+        self.carReleaseYear = bmwData.bmwReleaseYear
+        self.carModelName = bmwData.bmwModelName
+    }
+    
+    func getCarInfo() -> String {
+        return self.carColor+" "+self.carModelName+" \(self.carReleaseYear)"
+    }
+}
+```
 
-## Adding new Car "SUV"
-here we need to add new car "SUV"
+# now we're done , lets try to add new type of Car
+
+## Adding new Car "Fiat"
+here we need to add new car "Fiat"
 
 #### First thing, add new type in our "Enum"
 ```
-enum VehiclesType {
-    case SEDAN(SEDANData)
-    case FOURXFOUR(FOURxFOURData)
-
-    case SUV(SUVData) // here's the new type
+enum CarsType {
+    case BMW(BMWData)
+    case Mercedes(MercedesData)
+    
+    case Fiat(FiatData) // here's the new type
 }
 ```
 
 #### Second thing, add new class "SUV"
 
 ```
-struct SUVData {
-    let vehicleColor: String
-    let vehicleReleaseYear: Int
-    let vehicleModelName: String
+struct FiatData {
+    let fiatColor: String
+    let fiatReleaseYear: Int
+    let fiatModelName: String
 }
 
-class SUV: Vehicle {
-    var vehicleModelName: String
-    var vehicleReleaseYear: Int
-    var vehicleColor: String
+class Fiat: Car {
+    var carModelName: String
+    var carReleaseYear: Int
+    var carColor: String
     
-    init(with SUVData: SUVData) {
-        self.vehicleColor = SUVData.vehicleColor
-        self.vehicleReleaseYear = SUVData.vehicleReleaseYear
-        self.vehicleModelName = SUVData.vehicleModelName
+    init(with fiatData: FiatData) {
+        self.carColor = fiatData.fiatColor
+        self.carReleaseYear = fiatData.fiatReleaseYear
+        self.carModelName = fiatData.fiatModelName
     }
     
-    func getVehicleInfo() -> String {
-        return self.vehicleColor+" "+self.vehicleModelName+" \(self.vehicleReleaseYear)"
+    func getCarInfo() -> String {
+        return self.carColor+" "+self.carModelName+" \(self.carReleaseYear)"
     }
 }
+
 ```
 
 #### Last thing, add the case in our method in Factory class
 ```
-func produceVehicle(VehicleType vehicleType: VehiclesType) -> Vehicle {
-    switch vehicleType {
-    
-    case .SEDAN(let SEDANData):
-        return SEDAN(with: SEDANData)
-        
-    case .FOURXFOUR(let FOURxFOURData):
-        return FOURxFOUR(with: FOURxFOURData)
-        
-        //here's the new car "SUV"
-    case .SUV(let SUVData):
-        return SUV(with: SUVData)
-        
+func produceVehicle(CarType carType: CarsType) -> Car {
+        switch carType {
+        case .Fiat(let FiatData):
+            return Fiat(with: FiatData)
+            
+        case .BMW(let BMWData):
+            return BMW(with: BMWData)
+            
+        case .Mercedes(let MercedesData):
+            return Mercedes(with: MercedesData)
+            
+        }
     }
-}
+    
 ```
 
 Thanks for your time.
