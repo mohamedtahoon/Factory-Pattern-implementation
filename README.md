@@ -42,7 +42,7 @@ enum CarsType {
     case Mercedes(MercedesData)
 }
 ```
-note: BMWData, MercedesData and SUVData are struct to put data on it, you will se it each car, because each car has its own data
+note: BMWData and MercedesData are struct to put data on it, you will se it each car, because each car has its own data
 
 
 ### Enum
@@ -52,7 +52,9 @@ now we'r ready to create our Factory
 * **Note** We are mixing here three different patterns:
 
 1- Singleton
+
 2- Factory
+
 3- Static factory
 
 Static factory is usually mix of Singleton and Factory. 
@@ -81,7 +83,7 @@ class CarFactory {
 }
 ```
 
-## Create cars or Vehicles
+## Create cars
 
 ### Mercedes
 
@@ -149,7 +151,7 @@ enum CarsType {
 }
 ```
 
-#### Second thing, add new class "SUV"
+#### Second thing, add new class "Fiat"
 
 ```
 struct FiatData {
