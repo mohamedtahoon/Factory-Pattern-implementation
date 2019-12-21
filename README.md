@@ -42,7 +42,7 @@ enum CarsType {
     case Mercedes(MercedesData)
 }
 ```
-note: BMWData and MercedesData are struct to put data on it, you will se it each car, because each car has its own data
+note: BMWData and MercedesData are struct to put data on it, you will see it in each car, because each car has its own data
 
 
 ### Factory
